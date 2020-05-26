@@ -1,8 +1,10 @@
 require './game'
-require './players'
+require './player'
 require './turn'
 
 game = NewGame.new("Amy", "Nolan")
+
+
 # p game.player1.name
 # p game.player2.score
 # p game.current_player

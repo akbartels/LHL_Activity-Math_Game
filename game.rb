@@ -1,14 +1,12 @@
-require './players'
-require './turn'
+
 
 class NewGame
   attr_reader :player1, :player2
-  attr_writer
   attr_accessor :current_player
 
   def initialize(player1, player2)
-    @player1 = Players.new(player1)
-    @player2 = Players.new(player2)
+    @player1 = Player.new(player1)
+    @player2 = Player.new(player2)
     @current_player = @player1
     game_loop
   end
@@ -21,13 +19,13 @@ class NewGame
     end 
   end
 
-  def change_score
-    if @newTurn.pass == false
+  def change_score(wasCorrect)
+    if wasCorrect == false
       @current_player.lose_point
     end
   end
 
-  def winner
+  def print_winner
     if @current_player.score != 0
       puts "🏆 #{current_player.name} is the winner!"
     else
@@ -42,25 +40,17 @@ class NewGame
   end
 
   def game_loop
-    
-    # puts "I'm in the game loop"
-    # puts @player1.score
-    # puts @player2.score
 
-    while @current_player.score.to_i != 0
-      if @player1.score.to_i == 0 || @player2.score.to_i == 0
-        break 
-      else
-        @newTurn = Turn.new(@current_player.name)
-        @newTurn.ask_question
-        @newTurn.check_answer
-        change_score
-        change_player
-        current_score
-      end
+    while @player1.score.to_i != 0 && @player2.score.to_i != 0
+      @newTurn = Turn.new(@current_player.name)
+      @newTurn.ask_question
+      wasCorrect = @newTurn.check_answer
+      change_score(wasCorrect)
+      change_player
+      current_score
     end
     puts "\n>>>> GAME OVER <<<<"
-    winner
+    print_winner
     puts ">> Final Score:"
     puts "#{@player1.name}: #{@player1.score}/3 \n#{@player2.name}: #{@player2.score}/3"
   end

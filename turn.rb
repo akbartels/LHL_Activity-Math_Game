@@ -1,10 +1,6 @@
-require './game'
-
 
 class Turn
-  attr_reader
-  attr_writer 
-  attr_accessor :x, :y, :pass
+  attr_reader :x, :y, :pass
 
   def initialize(player)
     @x = rand(0...10)
@@ -30,18 +26,13 @@ class Turn
 
   def correct(answer)
     puts "#{answer} is correct!"
-    @pass = true
+    true
   end
 
   def wrong(answer)
     puts "Ouch! #{answer} is not correct. You lose one point"
-    @pass = false
+    false
   end
-
-  
-
-
-
 end
 
 
